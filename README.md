@@ -1,93 +1,79 @@
-# getting-started-with-django-cms
+![Python application](https://github.com/django-cms/django-cms-quickstart/workflows/Python%20application/badge.svg?branch=main)
 
+# django CMS quickstart
 
+A Dockerised django CMS project, ready to deploy on [Divio](https://www.divio.com/) or another Docker-based cloud platform, and run locally in Docker on your own machine.
 
-## Getting started
+This version uses Python 3.9 running and the most up-to-date versions of Django 3.2 and django CMS 3.11.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://gitlab.com/divio/incubator/getting-started-with-django-cms.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://gitlab.com/divio/incubator/getting-started-with-django-cms/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+This project is endorsed by the [django CMS Association](https://www.django-cms.org/en/about-us/). That means that it is officially accepted by the dCA as being in line with our roadmap vision and development/plugin policy. Join us on [Slack](https://www.django-cms.org/slack/) for more information or questions. 
 
 ## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+You need to have docker installed on your system to run this project.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+- [Install Docker](https://docs.docker.com/engine/install/) here.
+- If you have not used docker in the past, please read this [introduction on docker](https://docs.docker.com/get-started/) here.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+## Try it
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+```bash
+git clone git@github.com:django-cms/django-cms-quickstart.git
+cd django-cms-quickstart
+docker compose build web
+docker compose up -d database_default
+docker compose run web python manage.py migrate
+docker compose run web python manage.py createsuperuser
+docker compose up -d
+```
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+Then open http://django-cms-quickstart.127.0.0.1.nip.io:8000 (or just http://127.0.0.1:8000) in your browser.
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+Note: Since Compose V2, `docker-compose` is now included inside docker. For more information, checkout the [Compose V2](https://docs.docker.com/compose/cli-command/) Documentation.
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+## Customising the project
 
-## License
-For open source projects, say how it is licensed.
+This project is ready-to-go without making any changes at all, but also gives you some options.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+As-is, it will include a number of useful django CMS plugins and Bootstrap 5 for the frontend. You don't have to use
+these; they're optional. If you don't want to use them, read through the `settings.py` and `requirements.txt` files to
+see sections that can be removed - in each case, the section is noted with a comment containing the word 'optional'.
+
+Options are also available for using Postgres/MySQL, uWSGI/Gunicorn/Guvicorn, etc.
+
+#### Updating requirements
+
+The project uses a 2 step approach, freezing all dependencies with pip-tools. Read more about how to handle it here: https://blog.typodrive.com/2020/02/04/always-freeze-requirements-with-pip-compile-to-avoid-unpleasant-surprises/
+
+## Features
+
+### Static Files with Whitenoise
+
+This quickstart demo has a cloud-ready static files setup via django-whitenoise.
+
+In the containerized cloud the application is not served by a web server like nginx but directly through uwsgi. django-whitenoise is the glue that's needed to serve static files in your application directly through uwsgi.
+
+See the django-whitenoise settings in settings.py and the `quickstart/templates/whitenoise-static-files-demo.html` demo page template that serves a static file.
+
+## Contribution
+
+Here is the official django CMS repository: [https://github.com/django-cms/django-cms-quickstart/](https://github.com/django-cms/django-cms-quickstart/).
+
+
+## Deployment
+
+Note that this is just a demo project to get you started. If you want a full production ready site with all the bells and whistles we recommend you have a look at https://github.com/django-cms/djangocms-template instead.
+
+#### Env variables
+- to deploy this project in testing mode (recommended) set the environment variable `DEBUG` to `True` in your hosting environment. 
+- For production environment (if `DEBUG` is false) django requires you to whitelist the domain. Set the env var `DOMAIN` to the host, i.e. `www.domain.com` or `*.domain.com`.
+- If you want the media hosted on S3 set the `DEFAULT_FILE_STORAGE` variable accordingly.
+
+#### Deployment Commands
+Configure your hosting environment to run the following commands on every deployment:
+- `./manage.py migrate`
+
+
+#### Divio Deployment
+
+divio.com is a cloud hosting platform optimized for django web applications. It's the quickest way to deploy this project. Here is a [video tutorial](https://www.youtube.com/watch?v=O2g5Wfoyp7Q) and a [description of the deployment steps](https://github.com/django-cms/djangocms-template/blob/mco-standalone/docs/deployment-divio.md#divio-project-setup) that are mostly applicable for this quickstart project.
