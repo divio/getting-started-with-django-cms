@@ -126,7 +126,7 @@ easy-thumbnails[svg]==2.8.5
     #   easy-thumbnails
 furl==2.1.3
     # via django-storage-url
-gunicorn==21.2.0
+gunicorn==20.1.0
     # via -r requirements.in
 html5lib==1.1
     # via djangocms-text-ckeditor
