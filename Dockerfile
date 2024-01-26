@@ -24,6 +24,7 @@ RUN pip-compile requirements.in && \
 
 # Copy the rest of the project files into the container
 COPY . /app/
+RUN chmod +x manage.py
 
 # Make port 8000 available to the world outside this container
 EXPOSE 8000

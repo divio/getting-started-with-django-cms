@@ -13,7 +13,7 @@ psycopg==3.1.14
 gunicorn==20.1.0
 
 # key requirements for django CMS
-django-cms==3.11.4
+django-cms==4.1.0
 django-classy-tags==4.1.0
 django-sekizai==4.1.0
 pytz==2023.3.post1
@@ -39,5 +39,3 @@ djangocms-frontend==1.2.0
 
 # Django Filer - optional, but used in most projects (alpha) - already implicitly installed through djangocms-file
 # https://github.com/django-cms/django-filer/archive/refs/tags/2.1.1.zip#egg=django-filer
-
-pip-tools==7.3.0  # needed for compilation of this file into requirements.txt, see start of file

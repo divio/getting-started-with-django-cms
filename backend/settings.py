@@ -6,6 +6,8 @@ from django_storage_url import dsn_configured_storage_class
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+CMS_CONFIRM_VERSION4=True
+
 DEBUG = os.getenv('DEBUG', default=False)
 SECRET_KEY = os.getenv('SECRET_KEY')
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', default='*').split(',')
