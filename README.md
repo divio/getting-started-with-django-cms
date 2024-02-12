@@ -1,7 +1,7 @@
 # Getting started with Django CMS
 
 [![Deploy at Divio
-badge](https://img.shields.io/badge/deploy%20at%20divio-DFFF67)](https://control.divio.com/new?template_url=https://github.com/divio/getting-started-with-django-cms/archive/refs/heads/main.zip)
+badge](https://img.shields.io/badge/deploy%20at%20divio-DFFF67)](https://control.divio.com/app/new/?template_url=https://github.com/divio/getting-started-with-django-cms/archive/refs/heads/main.zip)
 
 
 This is a template project to bootstrap a Django CMS application.
