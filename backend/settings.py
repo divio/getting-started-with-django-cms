@@ -11,6 +11,7 @@ CMS_CONFIRM_VERSION4=True
 DEBUG = os.getenv('DEBUG', default=False)
 SECRET_KEY = os.getenv('SECRET_KEY')
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', default='*').split(',')
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', default='https://*.aldryn.io').split(',')
 
 # Use HTTP if SECURE_SSL_REDIRECT is not set or is set to "False".
 SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT', default="False") != "False"
