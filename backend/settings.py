@@ -1,20 +1,23 @@
 from pathlib import Path
 import os
 import dj_database_url
-from django_storage_url import dsn_configured_storage_class
+# from django_storage_url import dsn_configured_storage_class
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-CMS_CONFIRM_VERSION4=True
 
-DEBUG = os.getenv('DEBUG', default=False)
-SECRET_KEY = os.getenv('SECRET_KEY')
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', default='*').split(',')
-CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', default='https://*.aldryn.io').split(',')
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'changeme'
 
-# Use HTTP if SECURE_SSL_REDIRECT is not set or is set to "False".
-SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT', default="False") != "False"
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+
+ALLOWED_HOSTS = ["*"]
+CSRF_TRUSTED_ORIGINS=["https://*.aldryn.io"]
+
+# Redirect to HTTPS by default, unless explicitly disabled
+SECURE_SSL_REDIRECT = False
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
@@ -45,19 +48,19 @@ INSTALLED_APPS = [
     # Django Filer - optional, but used in most projects
     'filer',
     'easy_thumbnails',
+    'storages',
+
+    # the default publishing implementation - optional, but used in most projects
+    'djangocms_versioning',
+
+    # the default alias content - optional, but used in most projects
+    'djangocms_alias',
+    'parler',
 
     # the default CKEditor - optional, but used in most projects
     'djangocms_text_ckeditor',
 
-    # some content plugins - optional, but used in most projects
-    'djangocms_file',
-    'djangocms_icon',
-    'djangocms_picture',
-    'djangocms_style',
-    'djangocms_googlemap',
-    'djangocms_video',
-
-    # optional django CMS Frontend modules
+    # optional django CMS frontend modules
     'djangocms_frontend',
     'djangocms_frontend.contrib.accordion',
     'djangocms_frontend.contrib.alert',
@@ -71,6 +74,7 @@ INSTALLED_APPS = [
     'djangocms_frontend.contrib.link',
     'djangocms_frontend.contrib.listgroup',
     'djangocms_frontend.contrib.media',
+    'djangocms_frontend.contrib.icon',
     'djangocms_frontend.contrib.image',
     'djangocms_frontend.contrib.tabs',
     'djangocms_frontend.contrib.utilities',
@@ -127,7 +131,6 @@ THUMBNAIL_PROCESSORS = (
     'easy_thumbnails.processors.filters',
 )
 
-
 CMS_TEMPLATES = [
     # a minimal template to get started with
     ('minimal.html', 'Minimal template'),
@@ -135,7 +138,6 @@ CMS_TEMPLATES = [
     # optional templates that extend base.html, to be used with Bootstrap 5
     ('bootstrap5.html', 'Bootstrap 5 Demo'),
 
-    # serving static files with whitenoise demo
     ('whitenoise-static-files-demo.html', 'Static File Demo'),
 ]
 
@@ -147,10 +149,17 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 # Configure database using DATABASE_URL; fall back to sqlite in memory when no
 # environment variable is available, e.g. during Docker build
-DATABASE_URL = os.environ.get('DATABASE_URL', 'sqlite://:memory:')
-DATABASES = {'default': dj_database_url.parse(DATABASE_URL)}
 
-DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+if "DATABASE_URL" in os.environ:
+    DATABASES = {'default': dj_database_url.config(conn_max_age=500)}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -195,19 +204,32 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_collected')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+# Default storage settings, with the staticfiles storage updated.
+# See https://docs.djangoproject.com/en/5.0/ref/settings/#std-setting-STORAGES
+
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
+
 
 # Media files
 # DEFAULT_FILE_STORAGE is configured using DEFAULT_STORAGE_DSN
 
 # read the setting value from the environment variable
-DEFAULT_STORAGE_DSN = os.environ.get('DEFAULT_STORAGE_DSN')
+# DEFAULT_STORAGE_DSN = os.environ.get('DEFAULT_STORAGE_DSN')
 
 # dsn_configured_storage_class() requires the name of the setting
-DefaultStorageClass = dsn_configured_storage_class('DEFAULT_STORAGE_DSN')
+# DefaultStorageClass = dsn_configured_storage_class('DEFAULT_STORAGE_DSN')
 
 # Django's DEFAULT_FILE_STORAGE requires the class name
-DEFAULT_FILE_STORAGE = 'backend.settings.DefaultStorageClass'
+# DEFAULT_FILE_STORAGE = 'backend.settings.DefaultStorageClass'
 
 # only required for local file storage and serving, in development
 MEDIA_URL = 'media/'
@@ -215,3 +237,20 @@ MEDIA_ROOT = os.path.join('/data/media/')
 
 
 SITE_ID = 1
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CMS_CONFIRM_VERSION4 = True
+DJANGOCMS_VERSIONING_ALLOW_DELETING_VERSIONS = True
+
+
+# AWS S3 storage configuration
+AWS_ACCESS_KEY_ID = os.environ.get('DEFAULT_STORAGE_ACCESS_KEY_ID', '')
+AWS_SECRET_ACCESS_KEY = os.environ.get('DEFAULT_STORAGE_SECRET_ACCESS_KEY', '')
+AWS_S3_REGION_NAME = os.environ.get('DEFAULT_STORAGE_REGION', '')
+AWS_STORAGE_BUCKET_NAME=os.environ.get('DEFAULT_STORAGE_BUCKET', '')
+AWS_S3_CUSTOM_DOMAIN = os.environ.get('DEFAULT_STORAGE_CUSTOM_DOMAIN', '')
+AWS_S3_OBJECT_PARAMETERS = {
+    'ACL': 'public-read',
+    'CacheControl': 'max-age=86400',
+}

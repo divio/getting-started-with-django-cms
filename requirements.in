@@ -1,41 +1,33 @@
 # Compile this file for changes to take effect:
-# pip-compile requirements.in >> requirements.txt
+# pip-compile -U --resolver=backtracking
 
+boto3
+psycopg2
+uwsgi
 
-django==4.2
-dj-database-url==2.1.0
-django-storage-url==0.12.0
-whitenoise==6.6.0
-boto3==1.33.13
-
-psycopg==3.1.14
-
-gunicorn==20.1.0
+django<5
+dj-database-url
+django-storage-url
+django-storages
+whitenoise
+easy-thumbnails
 
 # key requirements for django CMS
-django-cms==4.1.0
-django-classy-tags==4.1.0
-django-sekizai==4.1.0
-pytz==2023.3.post1
+django-cms>=4.1.0
+djangocms-versioning>=2.0.0
+djangocms-alias>=2.0.0
 
 # optional, but used in most projects
-djangocms-admin-style==3.2.6
+djangocms-admin-style>=3.2.2
 
 # the default CKEditor - optional, but used in most projects
-djangocms-text-ckeditor==5.1.5
+djangocms-text-ckeditor>=5.1.2
 
-# some content plugins - optional, but used in most projects
-# djangocms-link>=3.0,<4.0  # Only if not using djangocms-frontend
-djangocms-icon==2.1.0
-djangocms-style==3.1.0
-djangocms-googlemap==2.2.0
-djangocms-video==3.1.0
-djangocms-file==3.0.1
-djangocms-picture==4.1.1
 
-easy-thumbnails[svg]==2.8.5
-# optional django CMS Frontend modules
-djangocms-frontend==1.2.0
+# optional django CMS frontend
+djangocms-frontend!=1.2.1
 
-# Django Filer - optional, but used in most projects (alpha) - already implicitly installed through djangocms-file
-# https://github.com/django-cms/django-filer/archive/refs/tags/2.1.1.zip#egg=django-filer
+django-filer
+
+
+pip-tools  # needed for compilation of this file into requirements.txt, see start of file

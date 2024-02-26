@@ -1,8 +1,8 @@
 FROM python:3.12
 
 # Set environment variables for Python
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1
 
 # Set the working directory to /app
 WORKDIR /app
@@ -24,10 +24,12 @@ RUN pip-compile requirements.in && \
 
 # Copy the rest of the project files into the container
 COPY . /app/
-RUN chmod +x manage.py
 
-# Make port 8000 available to the world outside this container
-EXPOSE 8000
+# Run collectstatic to gather static files
+RUN python manage.py collectstatic --noinput
+
+# Make port 80 available to the world outside this container
+EXPOSE 80
 
 # Define the command to run your application
-CMD ["gunicorn", "backend.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["gunicorn", "backend.wsgi:application", "--bind", "0.0.0.0:80"]
