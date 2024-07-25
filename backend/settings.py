@@ -8,16 +8,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'changeme')
+SECRET_KEY = os.environ.get('SECRET_KEY', '<a string of random characters>')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = os.environ.get('DEBUG') == "True"
 
-ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS=["https://*.aldryn.io"]
+ALLOWED_HOSTS = [os.environ.get('DOMAIN'),]
+if DEBUG:
+    ALLOWED_HOSTS = ["*",]
 
 # Redirect to HTTPS by default, unless explicitly disabled
-SECURE_SSL_REDIRECT = False
+SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT') != "False"
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
@@ -132,11 +134,11 @@ THUMBNAIL_PROCESSORS = (
 )
 
 CMS_TEMPLATES = [
+    # Default template that extend base.html, to be used with Bootstrap 5
+    ('bootstrap5.html', 'Bootstrap 5 Demo'),
+
     # a minimal template to get started with
     ('minimal.html', 'Minimal template'),
-
-    # optional templates that extend base.html, to be used with Bootstrap 5
-    ('bootstrap5.html', 'Bootstrap 5 Demo'),
 
     ('whitenoise-static-files-demo.html', 'Static File Demo'),
 ]
@@ -204,6 +206,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_collected')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # AWS S3 storage configuration
@@ -258,7 +261,7 @@ MEDIA_ROOT = os.path.join('/data/media/')
 
 SITE_ID = 1
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 CMS_CONFIRM_VERSION4 = True
 DJANGOCMS_VERSIONING_ALLOW_DELETING_VERSIONS = True
