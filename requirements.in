@@ -16,6 +16,7 @@ easy-thumbnails
 django-cms>=4.1.4
 djangocms-versioning>=2.0.0
 djangocms-alias>=2.0.0
+djangocms-link>=5.0.0
 
 # optional, but used in most projects
 djangocms-admin-style>=3.2.2

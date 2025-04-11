@@ -56,6 +56,7 @@ django-cms==4.1.4
     #   djangocms-alias
     #   djangocms-attributes-field
     #   djangocms-frontend
+    #   djangocms-link
     #   djangocms-text-ckeditor
     #   djangocms-versioning
 django-entangled==0.5.4
@@ -91,8 +92,12 @@ djangocms-admin-style==3.2.6
 djangocms-alias==2.0.0
     # via -r requirements.in
 djangocms-attributes-field==3.0.0
-    # via djangocms-frontend
+    # via
+    #   djangocms-frontend
+    #   djangocms-link
 djangocms-frontend==1.2.2
+    # via -r requirements.in
+djangocms-link==5.0.1
     # via -r requirements.in
 djangocms-text-ckeditor==5.1.5
     # via
