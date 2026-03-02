@@ -13,6 +13,7 @@ services:
     environment:
       DATABASE_URL: postgres://postgres@database_default:5432/db
       DEBUG: "True"
+      SECURE_SSL_REDIRECT: "False"
     links:
       - "database_default"
     # The following command is used to start the local development server.
