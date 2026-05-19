@@ -11,24 +11,30 @@ services:
       - "./data:/data:rw"
       - "./staticfiles_collected:/app/staticfiles_collected/"
     environment:
-      DATABASE_URL: postgres://postgres@database_default:5432/db
+      DATABASE_URL: postgres://postgres:postgres@database_default:5432/db
       DEBUG: "True"
       SECURE_SSL_REDIRECT: "False"
-    links:
-      - "database_default"
+    depends_on:
+      database_default:
+        condition: service_healthy
     # The following command is used to start the local development server.
     # Removing this line will mimic the deployment behaviour on Divio Cloud.
     command: python manage.py runserver 0.0.0.0:80
 
   database_default:
-    image: postgres:15.7-alpine
+    image: postgres:18.3-alpine
     environment:
       POSTGRES_DB: "db"
-      POSTGRES_HOST_AUTH_METHOD: "trust"
+      POSTGRES_PASSWORD: "postgres"
       SERVICE_MANAGER: "fsm-postgres"
     volumes:
       - ".:/app:rw"
-      - "database-default:/var/lib/postgresql/data/"
+      - "database-default:/var/lib/postgresql/"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
 volumes:
   database-default:
